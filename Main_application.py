@@ -6,6 +6,7 @@ from kivy.garden.graph import Graph, MeshLinePlot, MeshStemPlot, LinePlot, Smoot
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.dropdown import DropDown
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -14,6 +15,8 @@ from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.uix.spinner import Spinner
+from kivy.uix.filechooser import FileChooserIconView
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 import struct
@@ -93,6 +96,7 @@ Builder.load_string("""
             TextInput:
                 id: address
                 text:
+                multiline: False
             Label:
                 text: 'Данные на запись'
                 text_size:self.size
@@ -101,6 +105,7 @@ Builder.load_string("""
             TextInput:
                 id: data
                 text:
+                multiline: False
             Widget:
             Widget:
             Label:
@@ -497,6 +502,7 @@ Builder.load_string("""
                                 id: averaging_window_45
                                 size_hint:(1,.6)
                                 text:''
+                                multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -517,7 +523,8 @@ Builder.load_string("""
                             TextInput:
                                 id: suppression_band_46
                                 size_hint:(1,.6)
-                                text:''                        
+                                text:''
+                                multiline: False                        
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -539,6 +546,7 @@ Builder.load_string("""
                                 id: threshold_control_register_47
                                 size_hint:(1,.6)
                                 text:''
+                                multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -596,6 +604,7 @@ Builder.load_string("""
                                 id: period_threshold_49
                                 size_hint:(1,.6)
                                 text:''
+                                multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -697,6 +706,7 @@ Builder.load_string("""
                                     id: noise_level_52
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -726,6 +736,7 @@ Builder.load_string("""
                                     id: noise_level_excess_53
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -791,6 +802,7 @@ Builder.load_string("""
                                     id: phase_threshold_register_55
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -820,6 +832,7 @@ Builder.load_string("""
                                     id: phase_threshold_register_56
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -849,6 +862,7 @@ Builder.load_string("""
                                     id: sum_delta_threshold_57
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -878,6 +892,7 @@ Builder.load_string("""
                                     id: velocity_evaluation_58
                                     size_hint:(1,.8)
                                     text:''
+                                    multiline: False
                     AnchorLayout:
                         Widget:
                             canvas:
@@ -1115,7 +1130,7 @@ Builder.load_string("""
                 spacing: 3   
                 TextInput:
                     id: reconfiguration_04
-                    text: 
+                    multiline: False
                 Button:
                     size_hint:(.5,2)
                     text:'Реконфигурция'
@@ -1133,6 +1148,7 @@ Builder.load_string("""
                 spacing: 3
                 TextInput:
                     id: reconfiguration_24
+                    multiline: False
                 Button:
                     text:'Реконфигурция'
                     bold: 'True'
@@ -1150,6 +1166,7 @@ Builder.load_string("""
                 spacing: 3
                 TextInput:
                     id: reconfiguration_04C
+                    multiline: False
                 Button:
                     text:'Реконфигурция'
                     bold: 'True'
@@ -1239,7 +1256,23 @@ Builder.load_string("""
         size_hint: (1.2,1.5)
         GridLayout:
             cols: 2
-            size_hint: (.45,.15)
+            size_hint: (.45,.25)
+            spacing: 3
+            padding: 2
+            Label:
+            	text: 'IP КОМП'
+            	text_size: self.size
+            	halign: 'left'
+            	valign: 'middle'
+            Spinner:
+                id: COMP_IP
+                text_size: self.size
+            	halign: 'left'
+            	valign: 'middle'
+            	color: [0,0,0,1]
+            	background_color : [.9,.9,.9,1]
+            	background_normal : ''
+
             Label:
                 text: 'IP МЦОС'
                 text_size:self.size
@@ -1248,6 +1281,7 @@ Builder.load_string("""
             TextInput:
                 id: IP_DSPM
                 text:'172.16.0.13'
+                multiline: False
             Label:
                 text:'PORT МЦОС'
                 text_size:self.size
@@ -1256,6 +1290,7 @@ Builder.load_string("""
             TextInput:
                 id: PORT_DSPM
                 text: '65261'
+                multiline: False
             Widget:
             Widget:
             Label:
@@ -1271,9 +1306,10 @@ Builder.load_string("""
                 color: [0,0,0,1]
                 background_color : [.62,.93,.25,1]
                 background_normal : ''
-                on_press: root.reconfig()                
+                on_press: root.reconfig()
+            Widget:
+            Widget:
 """)
-
 def get_temperature_level():
     global FPGA_TEMPER_1
     global FPGA_TEMPER_2
@@ -1335,7 +1371,7 @@ def get_temperature_level():
                                               byteorder = 'big', signed=True)
                     FPGA_TEMPER_1.append(temper_1)
                 else:
-                    pass
+                    FPGA_TEMPER_1.append(temper_1)##########################
                 ##print (temper_1)
             clientSock.sendto(pack_for_FPGA_2,(DSPM_IP_ADDRESS, DSPM_PORT_NO))
             try:
@@ -1352,7 +1388,7 @@ def get_temperature_level():
                                               byteorder = 'big', signed=True)
                     FPGA_TEMPER_2.append(temper_2)
                 else:
-                    pass
+                    FPGA_TEMPER_2.append(temper_2)##############################
                 ##print (temper_2)
             clientSock.sendto(pack_for_FPGA_3,(DSPM_IP_ADDRESS, DSPM_PORT_NO))
             try:
@@ -1370,7 +1406,7 @@ def get_temperature_level():
                                               byteorder = 'big',signed=True)
                     FPGA_TEMPER_3.append(temper_3)                   
                 else:
-                    pass
+                    FPGA_TEMPER_3.append(temper_3)############################
                 ##print (temper_3)              
             if len(FPGA_TEMPER_1) >= 302:
                 del FPGA_TEMPER_1[0]
@@ -1443,6 +1479,10 @@ def write_to_reg(address, data):
 	            packadge = headline + address + data
 	            clientSock.sendto(packadge,(DSPM_IP_ADDRESS, DSPM_PORT_NO))
 	            print(packadge.hex())##
+	            print('IP назначения', DSPM_IP_ADDRESS)##
+	            print('PORT назначения', DSPM_PORT_NO)##
+	            print('IP оправки', IP_ADDRESS)##
+	            print('все IP', socket.gethostbyname_ex(socket.getfqdn()))##
 ##------------------------------------------------------
 def read_from_reg(address):
     headline = bytes ([0x00, 0x03,
@@ -1477,6 +1517,8 @@ def read_from_reg(address):
                 (bytes([income_pack[4]]) == bytes([0x21])))and
                 (bytes([income_pack[5]]) == bytes([0xA5]))):
                 return income_pack
+            else:#################################
+            	return income_pack################
     
 class RAW(Screen):
     def __init__(self, **kw):
@@ -1552,8 +1594,8 @@ class TEMPERATURE(Screen):
     def get_value_3(self, dt):
         self.graph_3.points = [(i,j) for i, j in enumerate(FPGA_TEMPER_3)]
 ##------autoscale---------------------
-        self.ids.graph.ymax = max_temp+5
-        self.ids.graph.ymin = min_temp-5       
+        self.ids.graph.ymax = max_temp + 5
+        self.ids.graph.ymin = min_temp - 5       
 ##------for control speed of updating gpaph------     
     def move(self):
         global update
@@ -1922,7 +1964,7 @@ class CONTROL(Screen):
         	write_to_reg('58', packadge[2:])
 ##------single float------------------------
         try:
-        	packadge = float(self.ids.noise_level_52.text)
+        	packadge = float(self.ids.noise_level_52.text.replace(',','.'))
         except ValueError:
         	pass
         else:
@@ -1930,7 +1972,7 @@ class CONTROL(Screen):
         	write_to_reg('52', packadge[2:])
 
         try:
-        	packadge = float(self.ids.noise_level_excess_53.text)
+        	packadge = float(self.ids.noise_level_excess_53.text.replace(',','.'))
         except ValueError:
         	pass
         else:
@@ -1938,7 +1980,7 @@ class CONTROL(Screen):
         	write_to_reg('53', packadge[2:])
 
         try:
-        	packadge = float(self.ids.phase_threshold_register_55.text)
+        	packadge = float(self.ids.phase_threshold_register_55.text.replace(',','.'))
         except ValueError:
         	pass
         else:
@@ -1946,7 +1988,7 @@ class CONTROL(Screen):
         	write_to_reg('55', packadge[2:])
 
         try:
-        	packadge = float(self.ids.phase_threshold_register_56.text)
+        	packadge = float(self.ids.phase_threshold_register_56.text.replace(',','.'))
         except ValueError:
         	pass
         else:
@@ -2149,15 +2191,35 @@ class BOOTLOADER_SETTINGS(Screen):
 class SETTING(Screen):
     def __init__(self, **kw):
         super(SETTING, self).__init__(**kw)
-        self.ids.reconf.text = 'Применить новый IP-адрес и порт'
+        self.ids.reconf.text  = 'Применить новый IP-адрес и порт'
+        ip_list = []
+        for i in socket.gethostbyname_ex(socket.getfqdn())[2]:
+        	ip_list.append( ' ' + i)
+        self.ids.COMP_IP.values = ip_list
+        self.ids.COMP_IP.text   = ip_list[0]
     def reconfig(self):
-        global DSPM_IP_ADDRESS 
+        global clientSock
+        global DSPM_IP_ADDRESS
         global DSPM_PORT_NO
+        global IP_ADDRESS
+        clientSock.close()
+        IP_ADDRESS = str(self.ids.COMP_IP.text)[1:]
+        clientSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        clientSock.setsockopt(socket.SOL_IP, IP_MTU_DISCOVER, IP_PMTUDISC_DONT)
+        ##clientSock.setsockopt()
         try:
+        	clientSock.bind((IP_ADDRESS, COMP_PORT_NO))
+        except:
+        	pass
+        clientSock.settimeout(0.3)
+##------try send something to check correct IP and PORT----- 
+        try:
+        	clientSock.sendto(bytes("", 'utf-8'),(str(self.ids.IP_DSPM.text), int(self.ids.PORT_DSPM.text)))
+        except:
+        	print('alarm')
+        else:
         	DSPM_IP_ADDRESS = str(self.ids.IP_DSPM.text)
         	DSPM_PORT_NO    = int(self.ids.PORT_DSPM.text)
-        except ValueError:
-        	pass
 ##------when moving to RAW or CONTROL or BOOTL window-----
     def stop_drawing(self):
         global waiting
@@ -2183,8 +2245,13 @@ if __name__ == '__main__':
     IP_ADDRESS = str(socket.gethostbyname(socket.getfqdn()))
     COMP_PORT_NO = 44203
     DSPM_IP_ADDRESS = "172.16.0.13"
+    ##DSPM_IP_ADDRESS = "192.168.111.63 192.168.111.12"
     DSPM_PORT_NO = 65261  
     clientSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    IP_MTU_DISCOVER   = 10
+    IP_PMTUDISC_DONT  =  0
+    clientSock.setsockopt(socket.SOL_IP, IP_MTU_DISCOVER, IP_PMTUDISC_DONT)
+    ##clientSock.setsockopt()
     clientSock.bind((IP_ADDRESS, COMP_PORT_NO))
     clientSock.settimeout(0.3)
     
@@ -2196,7 +2263,7 @@ if __name__ == '__main__':
     FPGA_TEMPER_3 = []
     max_temp = 50
     min_temp = 30
-    waiting = 0 ## first state of threading (get_temperature_level)
+    waiting = 0 ## first state of threading (get_temperature_lev-'''el)
     
     BOOTLOADER_SETTINGS_FPGA_1 = ''
     BOOTLOADER_SETTINGS_FPGA_2 = ''
